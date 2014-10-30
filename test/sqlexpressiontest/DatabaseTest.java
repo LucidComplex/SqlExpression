@@ -36,13 +36,30 @@ public class DatabaseTest extends TestCase {
          
          // create temp table
          DatabaseManager.get_connection().createStatement().execute("CREATE TABLE PRODUCT_CODE(PROD_CODE VARCHAR(2), DISCOUNT_CODE VARCHAR(1), DESCRIPTION VARCHAR(10))");
+         
          InsertExpression exp = new InsertExpression(DatabaseManager.get_connection(),"PRODUCT_CODE");
-         exp.AddInsert("PROD_CODE", "XX");//max 2
-         exp.AddInsert("DISCOUNT_CODE", "X");//max 1
-         exp.AddInsert("DESCRIPTION", "Sample");//max 10 
+         exp.addInsert("PROD_CODE", "XX");//max 2
+         exp.addInsert("DISCOUNT_CODE", "X");//max 1
+         exp.addInsert("DESCRIPTION", "Sample");//max 10 
          exp.execute();
          
          // drop table after test
          DatabaseManager.get_connection().createStatement().execute("DROP TABLE PRODUCT_CODE");
+    }
+    
+    public void testDeleteExpression() throws SqlExpressionException, SQLException {
+        DatabaseManager.start(SqlDriver.Derby, "jdbc:derby://localhost:1527/sample", "app", "app");
+        
+        // create temp table and temp data
+        DatabaseManager.get_connection().createStatement().execute("CREATE TABLE PRODUCT_CODE(PROD_CODE VARCHAR(2), DISCOUNT_CODE VARCHAR(1), DESCRIPTION VARCHAR(10))");
+
+        InsertExpression insertExp = new InsertExpression(DatabaseManager.get_connection(),"PRODUCT_CODE");
+        insertExp.addInsert("PROD_CODE", "XX");//max 2
+        insertExp.addInsert("DISCOUNT_CODE", 3);//max 1
+        insertExp.addInsert("DESCRIPTION", "Sample");//max 10 
+        insertExp.execute();
+
+        DeleteExpression deleteExp = new DeleteExpression(DatabaseManager.get_connection(), "PRODUCT_CODE");
+        
     }
 }

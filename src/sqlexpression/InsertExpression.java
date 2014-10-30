@@ -39,7 +39,7 @@ public class InsertExpression extends SqlExpression {
         this._inserts = _inserts;
     }
 
-    public void AddInsert(String key, Object value)
+    public void addInsert(String key, Object value)
     {
         if(this._inserts.containsKey(key))
             return;
@@ -47,6 +47,7 @@ public class InsertExpression extends SqlExpression {
         this._inserts.put(key, value);
     }
 
+    @Override
     protected boolean validateExpression() throws SqlExpressionException 
     {
         boolean retval = super.validateExpression();
@@ -59,8 +60,8 @@ public class InsertExpression extends SqlExpression {
             
     @Override
     protected ResultSet execute(Connection _connection) throws SqlExpressionException {
-        StringBuilder builder = new StringBuilder("INSERT INTO");
-        builder.append(" " + this.getFrom() + " (");
+        StringBuilder builder = new StringBuilder("INSERT INTO ");
+        builder.append(this.getFrom()).append(" (");
 
         for(Entry<String, Object> item : _inserts.entrySet())
         {

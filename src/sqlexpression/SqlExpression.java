@@ -47,6 +47,13 @@ public abstract class SqlExpression {
         _result = execute(_connection);
         return _result;
      }
+    
+    protected String makeSqlSafe(Object o){
+        String objStr = "";
+        if(o.getClass().isInstance(String.class) == false)//non-numeric
+            objStr = "'"+o+"'";
+        return objStr;
+    }
         
     protected abstract ResultSet execute(Connection _connection) throws SqlExpressionException;
     protected abstract boolean hasResultSet();
