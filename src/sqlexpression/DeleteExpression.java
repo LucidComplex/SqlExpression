@@ -7,6 +7,7 @@ package sqlexpression;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -41,8 +42,16 @@ public class DeleteExpression extends SqlExpression {
     @Override
     protected ResultSet execute(Connection _connection) throws SqlExpressionException {
         StringBuilder builder = new StringBuilder();
-        builder.append("DELETE FROM ").append(this.getFrom()).append(" WHERE ");
+        Iterator<String> deleteKeySet = _deletes.keySet().iterator();
         
+        String deleteKey = deleteKeySet.next();
+        Object deleteValue = _deletes.get(deleteKey);
+        builder.append("DELETE FROM ").append(this.getFrom())
+                .append(" WHERE ").append(deleteKey).append("=");
+        // check if deleteValue is non-numeric
+        if(deleteValue.getClass().isInstance(String.class) == false)
+            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import sqlexpression.DatabaseManager;
+import sqlexpression.DeleteExpression;
 import sqlexpression.InsertExpression;
 import sqlexpression.SqlDriver;
 import sqlexpression.SqlExpressionException;
@@ -60,6 +61,9 @@ public class DatabaseTest extends TestCase {
         insertExp.execute();
 
         DeleteExpression deleteExp = new DeleteExpression(DatabaseManager.get_connection(), "PRODUCT_CODE");
+        deleteExp.addDelete("PROD_CODE", "XX");
         
+        // drop table after test
+        DatabaseManager.get_connection().createStatement().execute("DROP TABLE PRODUCT_CODE");
     }
 }

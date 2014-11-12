@@ -75,9 +75,9 @@ public class InsertExpression extends SqlExpression {
             Object obj = item.getValue();
             String objStr = "";
             if(obj.getClass().isInstance(String.class) == false)//non-numeric
-            {
                 objStr = "'"+obj+"'";
-            }
+            else
+                objStr += obj;
 
             builder.append(objStr+",");
         }
